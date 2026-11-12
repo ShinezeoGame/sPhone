@@ -1,4 +1,4 @@
-<p align="center"><img src="docs/logo/sphone-logo-1024.png" width="148" alt="Logo sPhone : un S blanc terminé par un point, sur un téléphone orange"></p>
+<p align="center"><img src="docs/logo/sphone-logo-1024.png" width="148" alt="Logo sPhone : un téléphone au trait clair et un point ambre, sur fond orange"></p>
 
 # sPhone
 
@@ -122,7 +122,16 @@ flutter run -d windows
   système, sans téléphone : un faux service adb joue le rôle du vrai).
 - La version de scrcpy, son adresse et son empreinte sont fixées dans `tools/scrcpy.json`.
 - Logo : `tools/logo/generer_logo.py` produit les SVG de `docs/logo`, `tools/logo/exporter.py`
-  les PNG et l'icône Windows.
+  les PNG et l'icône Windows (voir ci-dessous).
 - `.github/workflows/build-windows.yml` compile, teste (y compris un lancement réel de
   l'application) et produit l'installateur à chaque envoi ; la version est publiée à
   chaque envoi sur `main`.
+
+## Logo
+
+sPhone partage sa marque avec [sDash](https://github.com/ShinezeoGame/sDash) : le même carré
+orange, le même trait clair, et le même point ambre, toujours au même endroit. Seul le
+dessin change — ici un téléphone, dont le point est la pastille de notification. Le « S »
+seul est le signe de la marque.
+
+![La marque « s » : le S, sDash et sPhone](docs/logo/presentation.jpg)

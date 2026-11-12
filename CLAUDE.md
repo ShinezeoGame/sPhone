@@ -34,7 +34,12 @@
   l'application assemblée, puis produit `sphone-setup.exe` (Inno Setup,
   `tools/installer/sphone.iss`) et `sphone-windows.zip` (artefact `sphone-windows`).
   La Release n'est publiée que sur `main` ou à la demande.
-- Logo : le « S » de sDash (un trait, terminé par un point ambre) sur une silhouette de
-  téléphone orange `#C2571A`. Source : `tools/logo/generer_logo.py` → `docs/logo/*.svg`,
-  puis `tools/logo/exporter.py` → PNG (`assets/branding`, `assets/mirror`) et icône Windows.
-  Les fichiers de `assets/mirror` portent les noms imposés par scrcpy.
+- Logo : sPhone et sDash forment la marque « s » de l'utilisateur, qui a demandé que leurs
+  logos aient un point commun tout en étant bien distincts. Règles : même carré arrondi
+  orange `#C2571A`, même trait clair à bouts ronds, et **le point ambre toujours au même
+  endroit et de la même taille** (en haut à droite). Seul le dessin change : téléphone pour
+  sPhone, maison pour sDash ; le « S » seul est le signe de la marque. Ne pas revenir à un
+  « S » décliné d'une appli à l'autre (jugé trop peu différent).
+  Source : `tools/logo/generer_logo.py` (identique dans les deux dépôts, à garder synchronisé)
+  → `docs/logo/*.svg`, puis `tools/logo/exporter.py` → PNG (`assets/branding`, `assets/mirror`)
+  et icône Windows. Les fichiers de `assets/mirror` portent les noms imposés par scrcpy.

@@ -7,7 +7,7 @@ Utilisation, depuis la racine du dépôt (nécessite `pip install cairosvg pillo
 Fichiers produits :
 
     docs/logo/sphone-logo-1024.png           logo pour le README
-    assets/branding/logo.png                 logo de l'en-tête de l'application (rogné)
+    assets/branding/logo.png                 logo de l'en-tête de l'application
     assets/mirror/scrcpy.png                 icône de la fenêtre du téléphone
     assets/mirror/disconnected.png           image affichée quand la liaison est coupée
     windows/runner/resources/app_icon.ico    icône de l'application Windows
@@ -30,15 +30,13 @@ def rendu(svg, taille):
 
 rendu(LOGO, 1024).save('docs/logo/sphone-logo-1024.png', optimize=True)
 
-# Dans l'application, le logo est rogné au ras du téléphone pour s'aligner sur le texte.
-grand = rendu(LOGO, 512)
-grand.crop(grand.getbbox()).save('assets/branding/logo.png', optimize=True)
+rendu(LOGO, 256).save('assets/branding/logo.png', optimize=True)
 
 # Les noms de ces deux fichiers sont imposés par scrcpy (variable SCRCPY_ICON_DIR).
 rendu(LOGO, 256).save('assets/mirror/scrcpy.png', optimize=True)
 rendu(ETEINT, 256).save('assets/mirror/disconnected.png', optimize=True)
 
-# Icône Windows : une image par taille, la variante simplifiée pour les plus petites.
+# Icône Windows : une image par taille, la variante au trait renforcé pour les plus petites.
 TAILLES = [16, 20, 24, 32, 40, 48, 64, 128, 256]
 images = [rendu(PETIT if taille <= 32 else LOGO, taille) for taille in TAILLES]
 images[-1].save(
