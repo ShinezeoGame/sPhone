@@ -402,7 +402,16 @@ class PhoneController extends ChangeNotifier {
       unawaited(Future<void>.delayed(const Duration(milliseconds: 1500)).then((_) => _maybeAutoStart()));
     } else {
       _dismissed.add(session.phoneId);
-      _setNotice(Notice(describeStartFailure(session._log), error: true));
+      // Un arrêt anormal après un long affichage n'est pas un échec de démarrage.
+      final ranAWhile = DateTime.now().difference(session._startedAt) > const Duration(seconds: 20);
+      _setNotice(
+        Notice(
+          ranAWhile
+              ? 'L\'affichage de ${session.phoneName} s\'est arrêté de façon inattendue.'
+              : describeStartFailure(session._log),
+          error: true,
+        ),
+      );
     }
   }
 
