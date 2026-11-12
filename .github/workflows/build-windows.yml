@@ -1,0 +1,138 @@
+name: Construire l'application Windows
+
+on:
+  push:
+    branches: [main, 'claude/**']
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      publier:
+        description: Publier cette compilation comme nouvelle version (Release)
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+env:
+  VERSION: 1.0.${{ github.run_number }}
+  SORTIE: build\windows\x64\runner\Release
+
+jobs:
+  windows:
+    name: Analyse, tests et application Windows
+    runs-on: windows-latest
+    timeout-minutes: 45
+    permissions:
+      contents: write # nécessaire pour publier la Release
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.47.9
+          channel: stable
+          cache: true
+
+      - name: Dépendances
+        run: flutter pub get
+
+      - name: Analyse statique
+        run: flutter analyze
+
+      - name: Tests
+        run: flutter test
+
+      # scrcpy (avec adb) n'est pas dans le dépôt : il est téléchargé depuis sa page de
+      # versions officielle et son empreinte SHA-256 est vérifiée (tools/scrcpy.json).
+      - name: scrcpy et adb
+        shell: pwsh
+        run: ./tools/scrcpy.ps1 -Destination build/scrcpy
+
+      # Les vrais programmes, sans téléphone : le service adb démarre et répond, et scrcpy
+      # comprend tous les arguments que sPhone lui passe.
+      - name: Essai de scrcpy et adb
+        shell: pwsh
+        run: |
+          $env:SPHONE_SCRCPY_DIR = "$PWD\build\scrcpy"
+          flutter test test/windows_tools_test.dart
+
+      - name: Compilation
+        run: flutter build windows --release --build-name=${{ env.VERSION }} --build-number=${{ github.run_number }}
+
+      - name: Assemblage
+        shell: pwsh
+        run: |
+          Copy-Item build\scrcpy "$env:SORTIE\scrcpy" -Recurse
+          # Bibliothèques d'exécution de Visual C++ : absentes d'un Windows fraîchement installé.
+          foreach ($dll in 'msvcp140.dll', 'vcruntime140.dll', 'vcruntime140_1.dll') {
+            Copy-Item "$env:SystemRoot\System32\$dll" $env:SORTIE
+          }
+          Get-ChildItem $env:SORTIE | Format-Table Name, Length
+
+      # L'application assemblée se lance, ouvre sa fenêtre, démarre le service adb, puis
+      # se ferme proprement en l'arrêtant.
+      - name: Essai de démarrage
+        shell: pwsh
+        run: |
+          $app = Start-Process -FilePath "$env:SORTIE\sphone.exe" -PassThru
+          Start-Sleep -Seconds 15
+          $app.Refresh()
+          if ($app.HasExited) { throw "sPhone s'est arrêté tout seul (code $($app.ExitCode))." }
+          if ($app.MainWindowHandle -eq 0) { throw "sPhone n'a pas ouvert de fenêtre." }
+          Write-Host "Fenêtre ouverte : « $($app.MainWindowTitle) »"
+          if (-not (Get-Process adb -ErrorAction SilentlyContinue)) { throw "sPhone n'a pas démarré le service adb." }
+          Write-Host "Service adb démarré."
+
+          $app.CloseMainWindow() | Out-Null
+          if (-not $app.WaitForExit(20000)) { $app.Kill(); throw "sPhone ne se ferme pas." }
+          Start-Sleep -Seconds 2
+          if (Get-Process adb -ErrorAction SilentlyContinue) { throw "Le service adb tourne encore après la fermeture." }
+          Write-Host "Fermeture propre : service adb arrêté."
+
+      - name: Archive portable
+        shell: pwsh
+        run: Compress-Archive -Path "$env:SORTIE\*" -DestinationPath sphone-windows.zip
+
+      - name: Installateur
+        shell: pwsh
+        run: |
+          $iscc = "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe"
+          if (-not (Test-Path $iscc)) { choco install innosetup --no-progress -y }
+          & $iscc "/DAppVersion=$env:VERSION" tools\installer\sphone.iss
+          if ($LASTEXITCODE -ne 0) { throw "La création de l'installateur a échoué." }
+          Get-Item sphone-setup.exe, sphone-windows.zip | Format-Table Name, Length
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sphone-windows
+          path: |
+            sphone-setup.exe
+            sphone-windows.zip
+          retention-days: 30
+
+      # Une nouvelle version est publiée à chaque envoi sur « main », ou à la demande
+      # (bouton « Run workflow », case « Publier »). Le lien
+      # …/releases/latest/download/sphone-setup.exe du README pointe toujours vers la dernière.
+      - name: Publication de la version
+        if: github.event_name != 'pull_request' && (github.ref_name == 'main' || inputs.publier)
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ env.VERSION }}
+          name: sPhone ${{ env.VERSION }}
+          target_commitish: ${{ github.sha }}
+          make_latest: true
+          files: |
+            sphone-setup.exe
+            sphone-windows.zip
+          body: |
+            sPhone pour Windows, compilé automatiquement (commit ${{ github.sha }}).
+
+            **Installation** : téléchargez `sphone-setup.exe` et lancez-le. Windows peut afficher
+            « Windows a protégé votre ordinateur » car l'application n'est pas signée : cliquez sur
+            « Informations complémentaires » puis « Exécuter quand même ».
+
+            `sphone-windows.zip` est la version portable : décompressez-la et lancez `sphone.exe`.
+
+            Contient scrcpy et adb (licence Apache 2.0).
