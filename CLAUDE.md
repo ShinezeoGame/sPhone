@@ -36,8 +36,7 @@
   La Release n'est publiée que sur `main` ou à la demande.
 - Logo : sPhone et sDash forment la marque « s » de l'utilisateur, qui a demandé que leurs
   logos aient un point commun tout en étant bien distincts. Règles : même carré arrondi
-  orange `#C2571A`, même trait clair à bouts ronds, et **le point ambre toujours au même
-  endroit et de la même taille** (en haut à droite). Seul le dessin change : téléphone pour
+  orange `#C2571A`, même trait clair à bouts ronds, le dessin de chaque application est **centré** dans le carré, et **le point ambre est posé ensuite dans l'angle en haut à droite**, toujours au même endroit et de la même taille (l'utilisateur a demandé de ne pas décaler le dessin pour faire de la place au point). Seul le dessin change : téléphone pour
   sPhone, maison pour sDash ; le « S » seul est le signe de la marque. Ne pas revenir à un
   « S » décliné d'une appli à l'autre (jugé trop peu différent).
   Source : `tools/logo/generer_logo.py` (identique dans les dépôts sDash, sPhone et sDrop, à garder synchronisé)

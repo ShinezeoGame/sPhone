@@ -3,9 +3,10 @@
 Le principe, commun à toutes les applications :
 
   * le même carré arrondi orange ;
-  * un dessin d'un seul trait clair, épais, à bouts ronds ;
-  * LE POINT ambre, toujours au même endroit (en haut à droite) et de la même taille.
-    C'est le point commun de la marque : une lumière allumée, une notification.
+  * un dessin d'un seul trait clair, épais, à bouts ronds, CENTRÉ dans le carré ;
+  * LE POINT ambre, toujours au même endroit (dans l'angle en haut à droite) et de la même
+    taille, posé après coup sur le dessin centré. C'est le point commun de la marque : une
+    lumière allumée, une notification.
 
 Seul le dessin change d'une application à l'autre : une maison pour sDash, un téléphone
 pour sPhone, une flèche qui tombe dans un bac pour sDrop. Le « S » seul, dont l'extrémité se détache pour devenir le point, est le signe
@@ -51,12 +52,14 @@ FOND_ETEINT, TRAIT_ETEINT, POINT_ETEINT = '#4A3A2E', '#A8937F', '#6B5646'
 # ── Constantes de la marque, dans un carré de 1024 ──
 ARRONDI = 230  # coins du carré
 EPAISSEUR = 92  # épaisseur du trait
-X_POINT, Y_POINT, R_POINT = 712, 300, 68  # le point : même place, même taille partout
+# Le point : même place, même taille dans toutes les applications. Il est placé dans l'angle,
+# indépendamment du dessin : ce n'est pas le dessin qui se décale pour lui faire de la place.
+X_POINT, Y_POINT, R_POINT = 772, 252, 68
 ESPACE = 38  # vide laissé autour du point quand le dessin passe dessous
 
-# ── Dessins : un tracé par application ──
-# Téléphone : contour arrondi, décalé à gauche pour que le point morde son coin.
-G, D, H, B, R = 330, 650, 210, 850, 88
+# ── Dessins : un tracé par application, centré sur (512, 512) traits compris ──
+# Téléphone : contour arrondi ; le point mord son coin, comme une pastille de notification.
+G, D, H, B, R = 352, 672, 192, 832, 88
 TELEPHONE = (
     f'M{G + R} {H} H{D - R} A{R} {R} 0 0 1 {D} {H + R} V{B - R} A{R} {R} 0 0 1 {D - R} {B} '
     f'H{G + R} A{R} {R} 0 0 1 {G} {B - R} V{H + R} A{R} {R} 0 0 1 {G + R} {H} Z'
@@ -65,17 +68,20 @@ TELEPHONE = (
 # téléphone plutôt que comme un simple cadre. Trop fin pour les petites tailles, où il disparaît.
 BARRE_DE_GESTES = f'M{(G + D) // 2 - 44} {B - 104} H{(G + D) // 2 + 44}'
 # Maison : un toit débordant et ses murs ; le point brille au-dessus du toit.
-MAISON = 'M222 504 L466 290 L710 504 M286 474 V794 H646 V474'
+MAISON = 'M268 474 L512 260 L756 474 M332 444 V764 H692 V444'
 # Dépôt : une flèche qui descend dans un bac.
-DEPOT = 'M470 250 V602 M330 462 L470 602 L610 462 M262 660 V790 H678 V660'
+DEPOT = 'M512 242 V594 M372 454 L512 594 L652 454 M304 652 V782 H720 V652'
 # « S » : barre haute, demi-cercle à gauche, barre médiane, demi-cercle à droite, barre
-# basse. Sa barre haute est à la hauteur du point, qui en est l'extrémité détachée.
+# basse. Son point à lui est l'extrémité détachée de sa barre haute : il fait partie de la
+# lettre, et l'ensemble lettre + point est centré dans le carré.
 RAYON_S = 108
-X_GAUCHE, X_DROITE = 438, 590
-Y_MILIEU, Y_BAS = Y_POINT + 2 * RAYON_S, Y_POINT + 4 * RAYON_S
-FIN_BARRE_HAUTE = X_POINT - R_POINT - ESPACE - EPAISSEUR // 2
+X_GAUCHE, X_DROITE = 400, 552
+Y_HAUT_S = 296
+Y_MILIEU, Y_BAS = Y_HAUT_S + 2 * RAYON_S, Y_HAUT_S + 4 * RAYON_S
+X_POINT_S = X_DROITE + RAYON_S
+FIN_BARRE_HAUTE = X_POINT_S - R_POINT - ESPACE - EPAISSEUR // 2
 S = (
-    f'M{FIN_BARRE_HAUTE} {Y_POINT} H{X_GAUCHE} '
+    f'M{FIN_BARRE_HAUTE} {Y_HAUT_S} H{X_GAUCHE} '
     f'A{RAYON_S} {RAYON_S} 0 0 0 {X_GAUCHE} {Y_MILIEU} H{X_DROITE} '
     f'A{RAYON_S} {RAYON_S} 0 0 1 {X_DROITE} {Y_BAS} H{X_GAUCHE - RAYON_S}'
 )
@@ -94,7 +100,7 @@ DESSINS = {
 A = DESSINS[APPLI]
 
 
-def dessin(trace, fond=FOND, trait=TRAIT, point=POINT, gras=1.0, detail=None, degage=True):
+def dessin(trace, fond=FOND, trait=TRAIT, point=POINT, gras=1.0, detail=None, degage=True, px=X_POINT, py=Y_POINT):
     """Le dessin et le point. `gras` renforce trait et point pour les petites tailles.
 
     `degage` efface le dessin autour du point pour lui laisser sa place ; à couper quand
@@ -107,8 +113,8 @@ def dessin(trace, fond=FOND, trait=TRAIT, point=POINT, gras=1.0, detail=None, de
     return (
         f'<path d="{trace}" fill="none" stroke="{trait}" stroke-width="{EPAISSEUR * gras:g}" '
         f'stroke-linecap="round" stroke-linejoin="round"/>{fin}'
-        + (f'<circle cx="{X_POINT}" cy="{Y_POINT}" r="{rayon + ESPACE:g}" fill="{fond}"/>' if degage else '')
-        + f'<circle cx="{X_POINT}" cy="{Y_POINT}" r="{rayon:g}" fill="{point}"/>'
+        + (f'<circle cx="{px}" cy="{py}" r="{rayon + ESPACE:g}" fill="{fond}"/>' if degage else '')
+        + f'<circle cx="{px}" cy="{py}" r="{rayon:g}" fill="{point}"/>'
     )
 
 
@@ -134,7 +140,7 @@ def ecrire(nom, contenu):
 ICONE = carre() + dessin(A['trace'], detail=A.get('detail'))
 ecrire(f'{APPLI}-logo', svg(ICONE))
 ecrire(f'{APPLI}-logo-petit', svg(carre() + dessin(A['trace'], gras=1.22)))
-ecrire('marque-s', svg(carre() + dessin(S)))
+ecrire('marque-s', svg(carre() + dessin(S, px=X_POINT_S, py=Y_HAUT_S)))
 
 if A.get('eteint'):
     eteint = dessin(A['trace'], FOND_ETEINT, TRAIT_ETEINT, POINT_ETEINT, detail=A.get('detail'))
@@ -144,7 +150,7 @@ if A.get('android'):
     # Couches de l'icône adaptative : le dessin est réduit pour rester dans la zone sûre
     # (cercle de 61 % du côté) quel que soit le masque du lanceur. Le fond de l'icône doit
     # rester la couleur `<appli>_icon_background` de android/app/src/main/res/values/colors.xml.
-    ECHELLE_ADAPTATIVE = 0.72
+    ECHELLE_ADAPTATIVE = 0.70
     # Couche avant transparente : elle sert aussi de silhouette aux icônes thématiques
     # d'Android 13+, d'où l'absence de disque de dégagement.
     ecrire(f'{APPLI}-icone-avant-plan', svg(reduit(dessin(A['trace'], degage=False), ECHELLE_ADAPTATIVE)))
