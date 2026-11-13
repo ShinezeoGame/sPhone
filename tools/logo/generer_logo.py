@@ -8,14 +8,14 @@ Le principe, commun à toutes les applications :
     C'est le point commun de la marque : une lumière allumée, une notification.
 
 Seul le dessin change d'une application à l'autre : une maison pour sDash, un téléphone
-pour sPhone. Le « S » seul, dont l'extrémité se détache pour devenir le point, est le signe
+pour sPhone, une flèche qui tombe dans un bac pour sDrop. Le « S » seul, dont l'extrémité se détache pour devenir le point, est le signe
 de la marque elle-même. Ajouter une application, c'est ajouter un dessin dans `DESSINS`.
 
-Ce fichier est identique dans les dépôts sDash et sPhone ; seule `APPLI_DU_DEPOT` diffère.
+Ce fichier est identique dans les dépôts sDash, sPhone et sDrop ; seule `APPLI_DU_DEPOT` diffère.
 
 Utilisation (nécessite `pip install fonttools`, pour vectoriser le texte du logotype) :
 
-    python3 tools/logo/generer_logo.py assets/fonts docs/logo [sdash|sphone]
+    python3 tools/logo/generer_logo.py assets/fonts docs/logo [sdash|sphone|sdrop]
 
 Produit, dans le dossier de sortie (ici pour sPhone) :
 
@@ -25,8 +25,8 @@ Produit, dans le dossier de sortie (ici pour sPhone) :
     sphone-logotype-sombre.svg  icône + « sPhone », pour fond sombre
     sphone-deconnecte.svg       icône éteinte (liaison coupée) — sPhone seulement
     sdash-icone-avant-plan.svg  dessin seul sur fond transparent : couche avant de l'icône
-                                adaptative Android — sDash seulement
-    sdash-icone-pleine.svg      carré plein sans arrondi, icônes web « maskable » — sDash seulement
+                                adaptative Android — sDash et sDrop
+    sdash-icone-pleine.svg      carré plein sans arrondi, icônes web « maskable » — sDash et sDrop
     marque-s.svg                le « S » de la marque
 
 Les PNG et les icônes des systèmes sont des exports de ces SVG : `tools/logo/exporter.py`.
@@ -66,6 +66,8 @@ TELEPHONE = (
 BARRE_DE_GESTES = f'M{(G + D) // 2 - 44} {B - 104} H{(G + D) // 2 + 44}'
 # Maison : un toit débordant et ses murs ; le point brille au-dessus du toit.
 MAISON = 'M222 504 L466 290 L710 504 M286 474 V794 H646 V474'
+# Dépôt : une flèche qui descend dans un bac.
+DEPOT = 'M470 250 V602 M330 462 L470 602 L610 462 M262 660 V790 H678 V660'
 # « S » : barre haute, demi-cercle à gauche, barre médiane, demi-cercle à droite, barre
 # basse. Sa barre haute est à la hauteur du point, qui en est l'extrémité détachée.
 RAYON_S = 108
@@ -80,6 +82,7 @@ S = (
 
 DESSINS = {
     'sdash': {'nom': 'Dash', 'trace': MAISON, 'devise': 'TABLEAU DE BORD DOMOTIQUE', 'android': True},
+    'sdrop': {'nom': 'Drop', 'trace': DEPOT, 'devise': 'DU TÉLÉPHONE AU PC, ET RETOUR', 'android': True},
     'sphone': {
         'nom': 'Phone',
         'trace': TELEPHONE,
@@ -140,7 +143,7 @@ if A.get('eteint'):
 if A.get('android'):
     # Couches de l'icône adaptative : le dessin est réduit pour rester dans la zone sûre
     # (cercle de 61 % du côté) quel que soit le masque du lanceur. Le fond de l'icône doit
-    # rester la couleur `sdash_icon_background` de android/app/src/main/res/values/colors.xml.
+    # rester la couleur `<appli>_icon_background` de android/app/src/main/res/values/colors.xml.
     ECHELLE_ADAPTATIVE = 0.72
     # Couche avant transparente : elle sert aussi de silhouette aux icônes thématiques
     # d'Android 13+, d'où l'absence de disque de dégagement.

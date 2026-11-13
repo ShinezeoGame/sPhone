@@ -40,6 +40,6 @@
   endroit et de la même taille** (en haut à droite). Seul le dessin change : téléphone pour
   sPhone, maison pour sDash ; le « S » seul est le signe de la marque. Ne pas revenir à un
   « S » décliné d'une appli à l'autre (jugé trop peu différent).
-  Source : `tools/logo/generer_logo.py` (identique dans les deux dépôts, à garder synchronisé)
+  Source : `tools/logo/generer_logo.py` (identique dans les dépôts sDash, sPhone et sDrop, à garder synchronisé)
   → `docs/logo/*.svg`, puis `tools/logo/exporter.py` → PNG (`assets/branding`, `assets/mirror`)
   et icône Windows. Les fichiers de `assets/mirror` portent les noms imposés par scrcpy.
