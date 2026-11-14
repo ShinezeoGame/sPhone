@@ -1,137 +1,108 @@
 <p align="center"><img src="docs/logo/sphone-logo-1024.png" width="148" alt="Logo sPhone : un téléphone au trait clair et un point ambre, sur fond orange"></p>
 
-# sPhone
+<h1 align="center">sPhone</h1>
 
-L'écran de votre téléphone Android dans une fenêtre de votre PC Windows, à contrôler au
-clavier et à la souris. La fenêtre a le format du téléphone, pour tenir dans un coin de
-l'écran. Le téléphone se relie par câble USB ou par Wi-Fi.
+<p align="center"><b>Votre téléphone, dans un coin de votre écran. À la souris et au clavier.</b></p>
 
 <p align="center">
-  <a href="https://github.com/ShinezeoGame/sPhone/releases/latest/download/sphone-setup.exe"><img alt="Télécharger la dernière version (installateur Windows)" src="https://img.shields.io/badge/T%C3%A9l%C3%A9charger-pour%20Windows-F0A257?style=for-the-badge&logo=windows&logoColor=white&labelColor=3B2516"></a>
+  <a href="https://github.com/ShinezeoGame/sPhone/releases/latest/download/sphone-setup.exe"><img alt="Télécharger pour Windows (installateur)" src="https://img.shields.io/badge/T%C3%A9l%C3%A9charger-pour%20Windows-F0A257?style=for-the-badge&logo=windows&logoColor=white&labelColor=3B2516"></a>
   <a href="https://github.com/ShinezeoGame/sPhone/releases/latest"><img alt="Version" src="https://img.shields.io/github/v/release/ShinezeoGame/sPhone?style=for-the-badge&label=version&color=C2692B&labelColor=3B2516"></a>
 </p>
 
+Répondre à un message sans lâcher le clavier, retrouver une photo, lancer une appli du
+téléphone pendant que vous travaillez : sPhone affiche l'écran de votre téléphone Android
+dans une fenêtre de votre PC Windows, et vous le pilotez comme s'il était entre vos mains.
+Par câble ou par Wi-Fi, sans rien installer sur le téléphone.
+
 <p align="center">
   <img src="docs/captures/accueil.png" width="270" alt="Accueil : un Galaxy S25 branché en USB, bouton Afficher l'écran">
-  <img src="docs/captures/accueil-sombre.png" width="270" alt="Accueil en thème sombre : écran affiché, la tuile du téléphone est ambrée">
+  <img src="docs/captures/accueil-sombre.png" width="270" alt="Thème sombre : l'écran du téléphone est affiché, la tuile est ambrée">
   <img src="docs/captures/wifi.png" width="270" alt="Page Connexion Wi-Fi">
 </p>
 
-## Fonctionnalités
+## Pourquoi sPhone
 
-- **Affichage et contrôle** : l'écran du téléphone en direct, avec le son ; la souris
-  touche l'écran, le clavier du PC écrit dans l'application ouverte, le copier-coller est
-  partagé entre le PC et le téléphone.
-- **Fenêtre au format du téléphone** : quatre tailles au choix, étirable à la souris en
-  gardant ses proportions, option « toujours au premier plan ».
-- **USB ou Wi-Fi** : branchez le câble et l'écran s'affiche ; un bouton fait passer le
-  téléphone en Wi-Fi pour pouvoir le débrancher. La connexion sans aucun câble (débogage
-  sans fil d'Android 11 et plus) est aussi prise en charge.
-- **Rapide** : l'affichage repose sur [scrcpy](https://github.com/Genymobile/scrcpy), la
-  référence du domaine (décodage vidéo matériel, latence de quelques dizaines de
-  millisecondes). Trois niveaux de qualité, jusqu'à 120 images par seconde.
-- **Capture d'écran** du téléphone, enregistrée dans `Images\sPhone`.
-- **Confort** : éteindre l'écran du téléphone pendant qu'on s'en sert depuis le PC,
-  l'empêcher de se mettre en veille, le verrouiller à la fermeture.
-- **Thème clair ou sombre**, dans le même style que [sDash](https://github.com/ShinezeoGame/sDash).
+- **Plus besoin de prendre le téléphone.** Il reste posé sur le bureau ; tout se fait depuis
+  le PC, avec un vrai clavier et une vraie souris.
+- **Une fenêtre qui ne prend pas toute la place.** Elle a le format du téléphone et se range
+  dans un coin de l'écran, à côté de votre travail.
+- **Branchez, c'est affiché.** Le téléphone est reconnu dès qu'il est branché et son écran
+  s'ouvre tout seul. Ensuite, un clic suffit pour passer au Wi-Fi.
 
-Rien à installer sur le téléphone, aucun compte, aucune publicité : tout passe par la
-liaison de débogage d'Android, entre votre téléphone et votre PC.
+## Ce que fait sPhone
 
-## Installation
+### 🖱️ Le téléphone au bout de la souris
+Un clic pour toucher l'écran, clic droit pour revenir en arrière, clic molette pour
+l'accueil. La molette fait défiler, Ctrl + clic permet de zoomer.
 
-1. Téléchargez **sphone-setup.exe** avec le bouton en haut de cette page et lancez-le.
-   L'application n'est pas signée : si Windows affiche « Windows a protégé votre
-   ordinateur », cliquez sur « Informations complémentaires » puis « Exécuter quand même ».
-2. L'installation se fait dans votre profil, sans droits d'administrateur.
+### ⌨️ Le clavier du PC pour écrire
+Tapez vos messages et vos recherches avec le clavier du PC ; en mode clavier physique, tous
+les caractères et les raccourcis passent. Le copier-coller va du PC au téléphone et
+inversement.
 
-Une version portable (`sphone-windows.zip`, à décompresser) est proposée dans les
-[versions](https://github.com/ShinezeoGame/sPhone/releases). Les compilations de chaque
-branche sont aussi disponibles en artefact **sphone-windows** dans l'onglet **Actions**.
+### 🔊 L'image et le son
+L'écran en direct, fluide jusqu'à 120 images par seconde, et le son du téléphone dans les
+haut-parleurs du PC.
 
-## Première connexion (une seule fois)
+### 📶 Par câble ou par Wi-Fi
+Le câble USB pour la meilleure réactivité ; le Wi-Fi pour la liberté. sPhone retient vos
+téléphones et s'y reconnecte au lancement. Même la première connexion peut se faire sans
+câble, avec le débogage sans fil d'Android.
 
-Sur un Samsung Galaxy — les intitulés varient peu sur les autres téléphones :
+### 🪟 Une fenêtre à votre mesure
+Quatre tailles, étirable à la souris sans déformer l'image, et toujours au premier plan si
+vous le souhaitez.
 
-1. **Paramètres → À propos du téléphone → Informations sur le logiciel**, touchez sept fois
-   « Numéro de version » : les options de développement apparaissent.
-2. **Paramètres → Options de développement**, activez **Débogage USB**.
-3. Branchez le téléphone au PC avec un câble USB qui transmet les données.
-4. Sur le téléphone, cochez « Toujours autoriser sur cet ordinateur » puis **Autoriser**.
+### 📸 Captures et fichiers
+Une capture d'écran du téléphone en un clic, rangée dans vos Images. Glissez un fichier
+dans la fenêtre pour l'envoyer sur le téléphone, ou un APK pour l'installer.
 
-sPhone affiche alors le téléphone et ouvre son écran.
+### 🔋 Le téléphone au repos
+Éteignez son écran pendant que vous vous en servez depuis le PC : il reste utilisable, et
+sa batterie vous dit merci. Il peut aussi se mettre en veille tout seul quand vous fermez
+la fenêtre.
 
-| Souci | Solution |
-| --- | --- |
-| « Débogage USB » est grisé | Désactivez **Paramètres → Sécurité et confidentialité → Blocage auto**. |
-| Le téléphone n'apparaît pas | Essayez un autre câble ou une autre prise USB. Sinon, installez le pilote [Samsung USB Driver](https://developer.samsung.com/android-usb-driver). |
-| L'image saccade en Wi-Fi | Choisissez la qualité « Fluide » dans les réglages. |
+### 🌗 Clair ou sombre
+Un thème clair et un thème sombre, au choix ou selon Windows.
 
-## Wi-Fi
+## Prise en main
 
-Le téléphone et le PC doivent être sur le même réseau.
+1. **Installez** sPhone sur le PC avec le bouton en haut de cette page.
+2. **Préparez** le téléphone une seule fois : activez le *débogage USB* dans ses options de
+   développement (le mode d'emploi, dans l'appli, montre où le trouver).
+3. **Branchez** le téléphone et acceptez l'autorisation qui s'affiche dessus : son écran
+   apparaît sur le PC.
 
-- **Avec le câble (le plus simple)** : téléphone branché, cliquez sur **Passer en Wi-Fi**,
-  puis débranchez. sPhone mémorise l'adresse et s'y reconnecte au lancement. À refaire
-  après un redémarrage du téléphone.
-- **Sans câble** : dans **Options de développement → Débogage sans fil**, touchez
-  « Associer l'appareil avec un code d'association » et recopiez l'adresse et le code dans
-  sPhone (**Connecter un téléphone en Wi-Fi**).
+Le [guide d'utilisation](docs/GUIDE.md) détaille la première connexion, le Wi-Fi, tous les
+raccourcis et les solutions aux soucis courants.
 
-## Raccourcis dans la fenêtre du téléphone
+## Questions fréquentes
 
-| Geste ou touches | Effet |
-| --- | --- |
-| Clic | Toucher l'écran |
-| Clic droit | Retour |
-| Clic molette | Accueil |
-| Alt + S | Applications récentes |
-| Ctrl + C, Ctrl + V | Copier-coller entre le PC et le téléphone |
-| Alt + ↑ / Alt + ↓ | Volume |
-| Alt + N | Notifications |
-| Alt + P | Bouton marche / veille |
-| Alt + O | Éteindre l'écran du téléphone (Alt + Maj + O pour le rallumer) |
-| Alt + R | Pivoter l'écran |
-| Alt + F | Plein écran |
-| Ctrl + clic maintenu | Zoomer (pincer) |
-| Glisser un fichier | L'envoyer sur le téléphone (un APK est installé) |
+**Faut-il installer une appli sur le téléphone ?** Non. sPhone utilise la liaison de
+débogage intégrée à Android ; rien ne reste sur le téléphone.
 
-## Comment ça marche
+**Mes données passent-elles par Internet ?** Non. L'image et les commandes vont directement
+du téléphone au PC, par le câble ou par votre Wi-Fi. Pas de compte, pas de serveur, pas de
+publicité.
 
-sPhone est une application [Flutter](https://flutter.dev) pour Windows. Elle embarque
-deux logiciels libres (licence Apache 2.0) placés dans son dossier `scrcpy` :
+**Avec quels téléphones ?** Les téléphones Android 5.0 et plus récents, le son demandant
+Android 11 ou plus. sPhone a été pensé autour d'un Samsung Galaxy S25.
 
-- **adb**, l'outil de liaison d'Android. sPhone dialogue directement avec son service
-  local : la liste des téléphones arrive en continu, sans interrogation périodique.
-- **scrcpy 5.0.1**, qui affiche l'écran et transmet clavier et souris. sPhone le lance
-  avec les réglages choisis, sous son propre nom et sa propre icône.
+**Est-ce rapide ?** sPhone s'appuie sur [scrcpy](https://github.com/Genymobile/scrcpy), la
+référence en la matière : décodage vidéo matériel et réaction quasi immédiate, surtout en USB.
 
-À la fermeture de sPhone, la fenêtre du téléphone se ferme et le service adb s'arrête.
+## La famille sPack
 
-## Développement
+sPhone fait partie de **sPack**, une famille d'applications pratiques pour la maison, toutes
+dans le même style.
 
-Flutter 3.47 et, pour compiler, Visual Studio avec la charge « Développement Desktop en C++ ».
+| | | |
+| :---: | :---: | :---: |
+| <a href="https://github.com/ShinezeoGame/sDash"><img src="docs/logo/famille/sdash.png" width="72" alt="Logo sDash"></a> | <img src="docs/logo/famille/sphone.png" width="72" alt="Logo sPhone"> | <a href="https://github.com/ShinezeoGame/sDrop"><img src="docs/logo/famille/sdrop.png" width="72" alt="Logo sDrop"></a> |
+| **[sDash](https://github.com/ShinezeoGame/sDash)**<br>Toute la maison sur une tablette | **sPhone**<br>L'écran du téléphone sur le PC | **[sDrop](https://github.com/ShinezeoGame/sDrop)**<br>Fichiers et textes entre téléphone et PC |
 
-```powershell
-.\tools\scrcpy.ps1                               # télécharge scrcpy + adb (empreinte vérifiée)
-$env:SPHONE_SCRCPY_DIR = "$PWD\build\scrcpy"     # où l'application les trouve en développement
-flutter run -d windows
-```
+---
 
-- Vérifications : `flutter analyze` et `flutter test` (les tests fonctionnent sur tout
-  système, sans téléphone : un faux service adb joue le rôle du vrai).
-- La version de scrcpy, son adresse et son empreinte sont fixées dans `tools/scrcpy.json`.
-- Logo : `tools/logo/generer_logo.py` produit les SVG de `docs/logo`, `tools/logo/exporter.py`
-  les PNG et l'icône Windows (voir ci-dessous).
-- `.github/workflows/build-windows.yml` compile, teste (y compris un lancement réel de
-  l'application) et produit l'installateur à chaque envoi ; la version est publiée à
-  chaque envoi sur `main`.
-
-## Logo
-
-sPhone partage sa marque avec [sDash](https://github.com/ShinezeoGame/sDash) : le même carré
-orange, le même trait clair, et le même point ambre, toujours au même endroit. Seul le
-dessin change — ici un téléphone, dont le point est la pastille de notification. Le « S »
-seul est le signe de la marque.
-
-![La marque « s » : le S, sDash et sPhone](docs/logo/presentation.jpg)
+<sub>Fonctionnement, développement et logo : voir [docs/DEVELOPPEMENT.md](docs/DEVELOPPEMENT.md).
+sPhone embarque [scrcpy](https://github.com/Genymobile/scrcpy) et adb, sous licence Apache 2.0.
+Police [Outfit](https://github.com/Outfitio/Outfit-Fonts) sous licence SIL Open Font License 1.1.</sub>
